@@ -1,143 +1,178 @@
-<!doctype html>
-<html><head><meta charset="utf-8">
-  <title>intellewhyze-cards</title>
+// sampleGetItemsApi.js
+
+const fs    = require('fs');
+const PAAPI = require('paapi5-nodejs-sdk');
+
+// 1) Configure the singleton client
+const defaultClient = PAAPI.ApiClient.instance;
+defaultClient.accessKey = 'AKPA3RZ70D1746755668';
+defaultClient.secretKey = 'ijfasno0HbZS1XCj7Bd3eoGLpGdoZwXcXUGkxOKw';
+defaultClient.host      = 'webservices.amazon.com';
+defaultClient.region    = 'us-east-1';
+
+// 2) Create the API object
+const api = new PAAPI.DefaultApi();
+
+// 3) Build the GetItems request for your 10 ASINs
+const request = new PAAPI.GetItemsRequest();
+request.PartnerTag  = 'intellewhyze-20';
+request.PartnerType = 'Associates';
+request.ItemIds     = [
+  'B0B6JSFPLN','B07BHCB9Y2','B0DKWYYP5F','B0BFNH9694',
+  'B0C7H38YBT','B0DLKT9YF9','B0CNPMZH5B','B0D95BR9GG',
+  'B0BDD7D34M','B07GBFT6Z3'
+];
+request.Resources   = [
+  'ItemInfo.Title',
+  'Images.Primary.Medium',
+  'Offers.Listings.Price'
+];
+
+// 4) Fetch items and write a fully styled HTML page
+api.getItems(request, (err, data) => {
+  if (err) {
+    console.error('API error:', JSON.stringify(err, null, 2));
+    return;
+  }
+
+  const items = data.ItemsResult.Items || [];
+  let html = `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Featured Products</title>
   <style>
-    .product-grid {
-      display: flex;
-      flex-wrap: wrap;
+    body { font-family: sans-serif; padding: 1rem; margin: 0; }
+    h1 { text-align: center; margin-bottom: 1rem; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
       gap: 1rem;
-      padding: 0;
-      margin: 0;
+      padding: 0 1rem 1rem;
+      max-width: 1200px;
+      margin: 0 auto;
     }
     .product-card {
-      width: 200px;
+      display: flex;
+      flex-direction: column;
+      padding: 0.75rem;
       border: 1px solid #ddd;
       border-radius: 4px;
-      overflow: hidden;
-      position: relative;
-      padding-bottom: 3rem;
       background: #fff;
-      font-family: sans-serif;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      transition: transform 0.2s, box-shadow 0.2s;
+      height: auto;
     }
-    .product-card a {
-      color: inherit;
-      text-decoration: none;
-      display: block;
+    .product-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    }
+    .product-thumb {
+      flex: 0 0 auto;
+      margin-bottom: 0.5rem;
       text-align: center;
     }
-    .product-card img {
-      width: 100%;
+    .product-thumb img {
+      max-width: 100%;
       height: auto;
-      display: block;
+      border-radius: 4px;
     }
-    .product-card .card-title {
-      font-size: 0.9rem;
-      margin: 0.5rem;
-      height: 2.7em;
-      overflow: hidden;
+    .product-title {
+      font-size: 0.95rem;
+      line-height: 1.2;
+      min-height: calc(1.2em * 3);
+      margin: 0 0 0.5rem;
+      overflow-wrap: break-word;
+      hyphens: auto;
     }
-    .product-card .card-price {
-      color: #007600;
+    .price {
+      color: #088A08;
       font-weight: bold;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.75rem;
+      flex: 0 0 auto;
     }
     .buy-button {
-  display: inline-flex;
-  align-items: center;
-  background: #FF9900;
-  color: #fff;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  text-decoration: none;
-  font-weight: bold;
-  position: absolute;
-  bottom: 1rem;
-  left: 50%;
-  transform: translateX(-50%);
+      margin-top: auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.5rem 0.75rem;
+      background: #FF9900;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 3px;
+      font-size: 0.9rem;
+      transition: background 0.2s;
+    }
+    .buy-button:hover {
+      background: #e88b00;
+    }
+    .buy-button img {
+      height: 1em;
+      margin-right: 0.4em;
+      vertical-align: middle;
+    }
+    /* Smartphones: single column */
+@media (max-width: 600px) {
+  .cards-container {
+    grid-template-columns: 1fr;
+  }
 }
 
-.buy-button:hover {
-  background: #e68a00;
+/* Small tablets: two columns */
+@media (min-width: 601px) and (max-width: 900px) {
+  .cards-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
-.buy-button .buy-logo {
-  width: 20px;
-  height: auto;
-  margin-right: 0.5rem;
+/* Large tablets / small desktops: three columns */
+@media (min-width: 901px) and (max-width: 1200px) {
+  .cards-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
+
+/* Desktops and up: you can leave the auto-fit or force 4+ columns */
+// @media (min-width: 1201px) {
+//   .cards-container {
+//     grid-template-columns: repeat(4, 1fr);
+//   }
+// }
   </style>
-</head><body>
+</head>
+<body>
   <h1>Featured Products</h1>
-  <div class="product-grid">
+  <div class="grid">`;
+
+  items.forEach(item => {
+    const title    = item.ItemInfo.Title.DisplayValue;
+    const thumb    = item.Images.Primary.Medium.URL;
+    const priceObj = item.Offers.Listings[0]?.Price;
+    const price    = priceObj ? priceObj.DisplayAmount : 'See price';
+    const url      = item.DetailPageURL;
+
+    html += `
     <div class="product-card">
-      <a href="https://www.amazon.com/dp/B0B6JSFPLN?tag=intellewhyze-20&linkCode=ogi&th=1&psc=1" target="_blank">
-        <img src="https://m.media-amazon.com/images/I/31gkUTog6kL._SL160_.jpg" alt="Nextmug - Temperature-Controlled, Self-Heating Coffee Mug (Slate Blue - 14 oz.)">
-        <div class="card-title">Nextmug - Temperature-Controlled, Self-Heating Coffee Mug (Slate Blue - 14 oz.)</div>
-        <div class="card-price">$99.94</div>
+      <div class="product-thumb">
+        <a href="${url}" target="_blank">
+          <img src="${thumb}" alt="${title}">
+        </a>
+      </div>
+      <div class="product-title">${title}</div>
+      <div class="price">${price}</div>
+      <a class="buy-button" href="${url}" target="_blank">
+        <img src="https://raw.githubusercontent.com/Yvonne-Rochester/intellewhyze-cards/main/Amazon_logo.svg" alt="Amazon logo">
+        Buy on Amazon
       </a>
-    </div>
-    <div class="product-card">
-      <a href="https://www.amazon.com/dp/B07BHCB9Y2?tag=intellewhyze-20&linkCode=ogi&th=1&psc=1" target="_blank">
-        <img src="https://m.media-amazon.com/images/I/51syx3ENHSL._SL160_.jpg" alt="PURA D'OR Anti-Thinning Biotin Shampoo & Deep Moisturizing Conditioner Original Gold Label Set (16oz x2) Natural Earthy Scent, CLINICALLY TESTED Effective Results, Hair Thickening Product, Women & Men">
-        <div class="card-title">PURA D'OR Anti-Thinning Biotin Shampoo & Deep Moisturizing Conditioner Original Gold Label Set (16oz x2) Natural Earthy Scent, CLINICALLY TESTED Effective Results, Hair Thickening Product, Women & Men</div>
-        <div class="card-price">$27.66 ($0.86 / Fl Oz)</div>
-      </a>
-    </div>
-    <div class="product-card">
-      <a href="https://www.amazon.com/dp/B0DKWYYP5F?tag=intellewhyze-20&linkCode=ogi&th=1&psc=1" target="_blank">
-        <img src="https://m.media-amazon.com/images/I/41-+63MM3kL._SL160_.jpg" alt="TILYMOL Luggage Sets 3 Piece with Spinner Wheel, Hardside Suitcase Set with TSA Lock, Expandable Travel Luggage for Men and Women, Black">
-        <div class="card-title">TILYMOL Luggage Sets 3 Piece with Spinner Wheel, Hardside Suitcase Set with TSA Lock, Expandable Travel Luggage for Men and Women, Black</div>
-        <div class="card-price">$113.09</div>
-      </a>
-    </div>
-    <div class="product-card">
-      <a href="https://www.amazon.com/dp/B0BFNH9694?tag=intellewhyze-20&linkCode=ogi&th=1&psc=1" target="_blank">
-        <img src="https://m.media-amazon.com/images/I/21yTwr7pudL._SL160_.jpg" alt="EUYZOU Women's 2PK Tummy Control Shapewear Tank Tops Seamless Square Neck Compression Tops Slimming Body Shaper Camisole-Black/White L">
-        <div class="card-title">EUYZOU Women's 2PK Tummy Control Shapewear Tank Tops Seamless Square Neck Compression Tops Slimming Body Shaper Camisole-Black/White L</div>
-        <div class="card-price">$21.69</div>
-      </a>
-    </div>
-    <div class="product-card">
-      <a href="https://www.amazon.com/dp/B0C7H38YBT?tag=intellewhyze-20&linkCode=ogi&th=1&psc=1" target="_blank">
-        <img src="https://m.media-amazon.com/images/I/41gp3dplrIL._SL160_.jpg" alt="Chantomoo Slippers for Women Memory Foam House Bedroom Corduroy Bow Crossbands Slide Slipper Shoes Comfy Trendy Gift Slippers Beige Size7 8 6.5">
-        <div class="card-title">Chantomoo Slippers for Women Memory Foam House Bedroom Corduroy Bow Crossbands Slide Slipper Shoes Comfy Trendy Gift Slippers Beige Size7 8 6.5</div>
-        <div class="card-price">$23.99</div>
-      </a>
-    </div>
-    <div class="product-card">
-      <a href="https://www.amazon.com/dp/B0DLKT9YF9?tag=intellewhyze-20&linkCode=ogi&th=1&psc=1" target="_blank">
-        <img src="https://m.media-amazon.com/images/I/41-EUowSA2L._SL160_.jpg" alt="HSIA Minimizer Bras for Women Plus Size, Unlined Full Coverage Coolcomfort T Shirt Bra with Underwire & Wide Strap for Heavy Breast Light Beige">
-        <div class="card-title">HSIA Minimizer Bras for Women Plus Size, Unlined Full Coverage Coolcomfort T Shirt Bra with Underwire & Wide Strap for Heavy Breast Light Beige</div>
-        <div class="card-price">$28.04</div>
-      </a>
-    </div>
-    <div class="product-card">
-      <a href="https://www.amazon.com/dp/B0CNPMZH5B?tag=intellewhyze-20&linkCode=ogi&th=1&psc=1" target="_blank">
-        <img src="https://m.media-amazon.com/images/I/31XsC6BpyDL._SL160_.jpg" alt="PRETTYGARDEN Women's Summer 2 Piece Outfits 2025 Cap Sleeve V Neck Belted Crop Tops Wide Leg Pant Sets Casual Tracksuit(Solid Black,Medium)">
-        <div class="card-title">PRETTYGARDEN Women's Summer 2 Piece Outfits 2025 Cap Sleeve V Neck Belted Crop Tops Wide Leg Pant Sets Casual Tracksuit(Solid Black,Medium)</div>
-        <div class="card-price">$30.73</div>
-      </a>
-    </div>
-    <div class="product-card">
-      <a href="https://www.amazon.com/dp/B0D95BR9GG?tag=intellewhyze-20&linkCode=ogi&th=1&psc=1" target="_blank">
-        <img src="https://m.media-amazon.com/images/I/511RdePyDxL._SL160_.jpg" alt="Partyreal ABAC1457">
-        <div class="card-title">Partyreal ABAC1457</div>
-        <div class="card-price">$19.99</div>
-      </a>
-    </div>
-    <div class="product-card">
-      <a href="https://www.amazon.com/dp/B0BDD7D34M?tag=intellewhyze-20&linkCode=ogi&th=1&psc=1" target="_blank">
-        <img src="https://m.media-amazon.com/images/I/51O5AVRXcUL._SL160_.jpg" alt="Maskiss 24k Gold Under Eye Patches (25 Pairs), eye mask, Collagen Skin Care Products, Eye Patches for Puffy Eyes, eye masks for dark circles and puffiness">
-        <div class="card-title">Maskiss 24k Gold Under Eye Patches (25 Pairs), eye mask, Collagen Skin Care Products, Eye Patches for Puffy Eyes, eye masks for dark circles and puffiness</div>
-        <div class="card-price">$12.74 ($0.51 / Count)</div>
-      </a>
-    </div>
-    <div class="product-card">
-      <a href="https://www.amazon.com/dp/B07GBFT6Z3?tag=intellewhyze-20&linkCode=ogi&th=1&psc=1" target="_blank">
-        <img src="https://m.media-amazon.com/images/I/61rfNo7HcVL._SL160_.jpg" alt="Bath and Body Gift Basket For Women and Men – 9 Piece Set of Vanilla Coconut Home Spa Set, Includes Fragrant Lotions, Extra Large Bath Bombs, Coconut Oil, Luxurious Bath Towel & More">
-        <div class="card-title">Bath and Body Gift Basket For Women and Men – 9 Piece Set of Vanilla Coconut Home Spa Set, Includes Fragrant Lotions, Extra Large Bath Bombs, Coconut Oil, Luxurious Bath Towel & More</div>
-        <div class="card-price">$29.88</div>
-      </a>
-    </div>
+    </div>`;
+  });
+
+  html += `
   </div>
-</body></html>
+</body>
+</html>`;
+
+  fs.writeFileSync('index.html', html, 'utf8');
+  console.log('✅ index.html created!');
+});
