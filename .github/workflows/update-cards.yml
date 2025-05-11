@@ -32,8 +32,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-name: Refresh Product Cards
-
 on:
   schedule:
     # every six hours
