@@ -1,0 +1,14 @@
+{
+  "name": "intellewhyze-cards",
+  "version": "1.0.0",
+  "description": "Featured product cards pulled from Amazon PA-API",
+  "main": "sampleGetItemsApi.js",
+  "scripts": {
+    "build": "node sampleGetItemsApi.js"
+  },
+  "author": "Yvonne Rochester <youremail@example.com>",
+  "license": "MIT",
+  "dependencies": {
+    "paapi5-nodejs-sdk": "^1.1.0"
+  }
+}
