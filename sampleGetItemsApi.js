@@ -107,6 +107,13 @@ api.getItems(request, (err, data) => {
       font-weight: bold;
       transition: background 0.2s;
     }
+    .buy-button .logo-wrap { 
+      background: #fff;
+      padding: 0.2em;
+      border-radius: 3px;
+      margin-right: 0.5em;
+      display: inline-flex;
+    }
     .buy-button .logo-wrap img {
       display: block;
       max-height: 1.2em;        /* scale to text-height */
