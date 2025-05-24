@@ -58,37 +58,81 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 0.5rem 0.75rem;
+      padding: 0.5rem 1rem;
       background: #FF9900;
       color: #fff;
+      border: none;
       text-decoration: none;
-      border-radius: 3px;
+      border-radius: 4px;
+      cursor: pointer;
       font-size: 0.9rem;
+      font-weight: bold;
       transition: background 0.2s;
+    }
+    .buy-button .logo-wrap { 
+      background: #fff;
+      padding: 0.2em;
+      border-radius: 3px;
+      margin-right: 0.5em;
+      display: inline-flex;
+    }
+    .buy-button .logo-wrap img {
+      display: block;
+      max-height: 1.2em;        /* scale to text-height */
+      width: auto;
     }
     .buy-button:hover {
       background: #e88b00;
     }
     .buy-button img {
-      height: 1em;
-      margin-right: 0.4em;
+      height: 1.2em;
+      margin-right: 0.5em;
       vertical-align: middle;
     }
+    /* Smartphones: single column */
+@media (max-width: 600px) {
+  .cards-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Small tablets: two columns */
+@media (min-width: 601px) and (max-width: 900px) {
+  .cards-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Large tablets / small desktops: three columns */
+@media (min-width: 901px) and (max-width: 1200px) {
+  .cards-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Desktops and up: you can leave the auto-fit or force 4+ columns */
+// @media (min-width: 1201px) {
+//   .cards-container {
+//     grid-template-columns: repeat(4, 1fr);
+//   }
+// }
   </style>
 </head>
 <body>
-  <h1>Featured Products</h1>
+  <h1>Special Gift Items</h1>
   <div class="grid">
     <div class="product-card">
       <div class="product-thumb">
         <a href="https://www.amazon.com/dp/B0B6JSFPLN?tag=intellewhyze-20&linkCode=ogi&th=1&psc=1" target="_blank">
-          <img src="https://m.media-amazon.com/images/I/31gkUTog6kL._SL160_.jpg" alt="Nextmug - Temperature-Controlled, Self-Heating Coffee Mug (Slate Blue - 14 oz.)">
+          <img src="https://m.media-amazon.com/images/I/31gkUTog6kL._SL160_.jpg" alt="Nextmug - Temperature-Controlled, Self-Heating Coffee Mug (14 oz.) (Slate Blue)">
         </a>
       </div>
-      <div class="product-title">Nextmug - Temperature-Controlled, Self-Heating Coffee Mug (Slate Blue - 14 oz.)</div>
-      <div class="price">$99.94</div>
+      <div class="product-title">Nextmug - Temperature-Controlled, Self-Heating Coffee Mug (14 oz.) (Slate Blue)</div>
+      <div class="price">$99.95</div>
       <a class="buy-button" href="https://www.amazon.com/dp/B0B6JSFPLN?tag=intellewhyze-20&linkCode=ogi&th=1&psc=1" target="_blank">
+        <span class="logo-wrap">
         <img src="https://raw.githubusercontent.com/Yvonne-Rochester/intellewhyze-cards/main/Amazon_logo.svg" alt="Amazon logo">
+        </span>
         Buy on Amazon
       </a>
     </div>
@@ -99,9 +143,11 @@
         </a>
       </div>
       <div class="product-title">PURA D'OR Anti-Thinning Biotin Shampoo & Deep Moisturizing Conditioner Original Gold Label Set (16oz x2) Natural Earthy Scent, CLINICALLY TESTED Effective Results, Hair Thickening Product, Women & Men</div>
-      <div class="price">$27.66 ($0.86 / Fl Oz)</div>
+      <div class="price">$39.99 ($1.25 / Fl Oz)</div>
       <a class="buy-button" href="https://www.amazon.com/dp/B07BHCB9Y2?tag=intellewhyze-20&linkCode=ogi&th=1&psc=1" target="_blank">
+        <span class="logo-wrap">
         <img src="https://raw.githubusercontent.com/Yvonne-Rochester/intellewhyze-cards/main/Amazon_logo.svg" alt="Amazon logo">
+        </span>
         Buy on Amazon
       </a>
     </div>
@@ -112,9 +158,11 @@
         </a>
       </div>
       <div class="product-title">TILYMOL Luggage Sets 3 Piece with Spinner Wheel, Hardside Suitcase Set with TSA Lock, Expandable Travel Luggage for Men and Women, Black</div>
-      <div class="price">$113.09</div>
+      <div class="price">$129.99</div>
       <a class="buy-button" href="https://www.amazon.com/dp/B0DKWYYP5F?tag=intellewhyze-20&linkCode=ogi&th=1&psc=1" target="_blank">
+        <span class="logo-wrap">
         <img src="https://raw.githubusercontent.com/Yvonne-Rochester/intellewhyze-cards/main/Amazon_logo.svg" alt="Amazon logo">
+        </span>
         Buy on Amazon
       </a>
     </div>
@@ -125,9 +173,11 @@
         </a>
       </div>
       <div class="product-title">EUYZOU Women's 2PK Tummy Control Shapewear Tank Tops Seamless Square Neck Compression Tops Slimming Body Shaper Camisole-Black/White L</div>
-      <div class="price">$21.69</div>
+      <div class="price">$27.99</div>
       <a class="buy-button" href="https://www.amazon.com/dp/B0BFNH9694?tag=intellewhyze-20&linkCode=ogi&th=1&psc=1" target="_blank">
+        <span class="logo-wrap">
         <img src="https://raw.githubusercontent.com/Yvonne-Rochester/intellewhyze-cards/main/Amazon_logo.svg" alt="Amazon logo">
+        </span>
         Buy on Amazon
       </a>
     </div>
@@ -138,9 +188,11 @@
         </a>
       </div>
       <div class="product-title">Chantomoo Slippers for Women Memory Foam House Bedroom Corduroy Bow Crossbands Slide Slipper Shoes Comfy Trendy Gift Slippers Beige Size7 8 6.5</div>
-      <div class="price">$23.99</div>
+      <div class="price">$29.99</div>
       <a class="buy-button" href="https://www.amazon.com/dp/B0C7H38YBT?tag=intellewhyze-20&linkCode=ogi&th=1&psc=1" target="_blank">
+        <span class="logo-wrap">
         <img src="https://raw.githubusercontent.com/Yvonne-Rochester/intellewhyze-cards/main/Amazon_logo.svg" alt="Amazon logo">
+        </span>
         Buy on Amazon
       </a>
     </div>
@@ -151,9 +203,11 @@
         </a>
       </div>
       <div class="product-title">HSIA Minimizer Bras for Women Plus Size, Unlined Full Coverage Coolcomfort T Shirt Bra with Underwire & Wide Strap for Heavy Breast Light Beige</div>
-      <div class="price">$28.04</div>
+      <div class="price">$32.99</div>
       <a class="buy-button" href="https://www.amazon.com/dp/B0DLKT9YF9?tag=intellewhyze-20&linkCode=ogi&th=1&psc=1" target="_blank">
+        <span class="logo-wrap">
         <img src="https://raw.githubusercontent.com/Yvonne-Rochester/intellewhyze-cards/main/Amazon_logo.svg" alt="Amazon logo">
+        </span>
         Buy on Amazon
       </a>
     </div>
@@ -164,9 +218,11 @@
         </a>
       </div>
       <div class="product-title">PRETTYGARDEN Women's Summer 2 Piece Outfits 2025 Cap Sleeve V Neck Belted Crop Tops Wide Leg Pant Sets Casual Tracksuit(Solid Black,Medium)</div>
-      <div class="price">$30.73</div>
+      <div class="price">$40.99</div>
       <a class="buy-button" href="https://www.amazon.com/dp/B0CNPMZH5B?tag=intellewhyze-20&linkCode=ogi&th=1&psc=1" target="_blank">
+        <span class="logo-wrap">
         <img src="https://raw.githubusercontent.com/Yvonne-Rochester/intellewhyze-cards/main/Amazon_logo.svg" alt="Amazon logo">
+        </span>
         Buy on Amazon
       </a>
     </div>
@@ -177,9 +233,11 @@
         </a>
       </div>
       <div class="product-title">Partyreal ABAC1457</div>
-      <div class="price">$19.99</div>
+      <div class="price">$23.99</div>
       <a class="buy-button" href="https://www.amazon.com/dp/B0D95BR9GG?tag=intellewhyze-20&linkCode=ogi&th=1&psc=1" target="_blank">
+        <span class="logo-wrap">
         <img src="https://raw.githubusercontent.com/Yvonne-Rochester/intellewhyze-cards/main/Amazon_logo.svg" alt="Amazon logo">
+        </span>
         Buy on Amazon
       </a>
     </div>
@@ -190,9 +248,11 @@
         </a>
       </div>
       <div class="product-title">Maskiss 24k Gold Under Eye Patches (25 Pairs), eye mask, Collagen Skin Care Products, Eye Patches for Puffy Eyes, eye masks for dark circles and puffiness</div>
-      <div class="price">$12.74 ($0.51 / Count)</div>
+      <div class="price">$16.95 ($0.68 / Count)</div>
       <a class="buy-button" href="https://www.amazon.com/dp/B0BDD7D34M?tag=intellewhyze-20&linkCode=ogi&th=1&psc=1" target="_blank">
+        <span class="logo-wrap">
         <img src="https://raw.githubusercontent.com/Yvonne-Rochester/intellewhyze-cards/main/Amazon_logo.svg" alt="Amazon logo">
+        </span>
         Buy on Amazon
       </a>
     </div>
@@ -203,9 +263,11 @@
         </a>
       </div>
       <div class="product-title">Bath and Body Gift Basket For Women and Men – 9 Piece Set of Vanilla Coconut Home Spa Set, Includes Fragrant Lotions, Extra Large Bath Bombs, Coconut Oil, Luxurious Bath Towel & More</div>
-      <div class="price">$29.88</div>
+      <div class="price">$36.99</div>
       <a class="buy-button" href="https://www.amazon.com/dp/B07GBFT6Z3?tag=intellewhyze-20&linkCode=ogi&th=1&psc=1" target="_blank">
+        <span class="logo-wrap">
         <img src="https://raw.githubusercontent.com/Yvonne-Rochester/intellewhyze-cards/main/Amazon_logo.svg" alt="Amazon logo">
+        </span>
         Buy on Amazon
       </a>
     </div>

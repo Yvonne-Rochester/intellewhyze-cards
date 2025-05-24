@@ -96,20 +96,35 @@ api.getItems(request, (err, data) => {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 0.5rem 0.75rem;
+      padding: 0.5rem 1rem;
       background: #FF9900;
       color: #fff;
+      border: none;
       text-decoration: none;
-      border-radius: 3px;
+      border-radius: 4px;
+      cursor: pointer;
       font-size: 0.9rem;
+      font-weight: bold;
       transition: background 0.2s;
+    }
+    .buy-button .logo-wrap { 
+      background: #fff;
+      padding: 0.2em;
+      border-radius: 3px;
+      margin-right: 0.5em;
+      display: inline-flex;
+    }
+    .buy-button .logo-wrap img {
+      display: block;
+      max-height: 1.2em;        /* scale to text-height */
+      width: auto;
     }
     .buy-button:hover {
       background: #e88b00;
     }
     .buy-button img {
-      height: 1em;
-      margin-right: 0.4em;
+      height: 1.2em;
+      margin-right: 0.5em;
       vertical-align: middle;
     }
     /* Smartphones: single column */
@@ -142,7 +157,7 @@ api.getItems(request, (err, data) => {
   </style>
 </head>
 <body>
-  <h1>Featured Products</h1>
+  <h1>Special Gift Items</h1>
   <div class="grid">`;
 
   items.forEach(item => {
@@ -162,7 +177,9 @@ api.getItems(request, (err, data) => {
       <div class="product-title">${title}</div>
       <div class="price">${price}</div>
       <a class="buy-button" href="${url}" target="_blank">
+        <span class="logo-wrap">
         <img src="https://raw.githubusercontent.com/Yvonne-Rochester/intellewhyze-cards/main/Amazon_logo.svg" alt="Amazon logo">
+        </span>
         Buy on Amazon
       </a>
     </div>`;
